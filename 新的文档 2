@@ -1,0 +1,116 @@
+<?php  
+$php_path = dirname(__FILE__) . '/';  
+$php_url = dirname($_SERVER['PHP_SELF']) . '/upload';  
+//文件保存目录路径  
+$save_path = $php_path . './upload/face/';//默认为 upload.php所在目录  
+//文件保存目录URL  
+$save_url = $php_url . './';//默认为 upload.php所在目录  
+//定义允许上传的文件扩展名  
+$ext_arr = array("gif", "jpg", "jpeg", "png", "bmp");   
+//最大文件大小  
+$max_size = 1024*10000;//(默认1M)  
+  
+$save_path = realpath($save_path) . '/';  
+//有上传文件时  
+if (empty($_FILES) === false) {  
+    //原文件名  
+    $file_name = $_FILES['uppic']['name'];  
+    //服务器上临时文件名  
+    $tmp_name = $_FILES['uppic']['tmp_name'];  
+    //文件大小  
+    $file_size = $_FILES['uppic']['size'];  
+    //错误类型  
+    $file_error = $_FILES['uppic']['error'];  
+      
+    //检查错误类型 0：文件上传成功。1：超过了文件大小php.ini中即系统设定的大小。2：超过了文件大小  
+    if ($file_error>'0') {  
+        exit("返回错误: 上传文件($file_name)大小超过限制。最大".($max_size/1024)."KB");  
+    }  
+      
+    //检查文件名  
+    if (!$file_name) {  
+        exit("返回错误: 请选择文件。");  
+    }  
+    //检查目录  
+    if (@is_dir($save_path) === false) {  
+        exit("返回错误: 上传目录不存在。($save_path)");  
+    }  
+    //检查目录写权限  
+    if (@is_writable($save_path) === false) {  
+        exit("返回错误: 上传目录没有写权限。($save_url)");  
+    }  
+    //检查是否已上传  
+    if (@is_uploaded_file($tmp_name) === false) {  
+        exit("返回错误: 临时文件可能不是上传文件。($file_name)($tmp_name)");  
+    }  
+    //检查文件大小  
+    if ($file_size > $max_size) {  
+        exit("返回错误: 上传文件($file_name)大小超过限制。最大".($max_size/1024)."KB");  
+    }  
+    $temp_arr = explode(".", $file_name);  
+    $file_ext = array_pop($temp_arr);  
+    $file_ext = trim($file_ext);  
+    $file_ext = strtolower($file_ext);  
+    if (in_array($file_ext, $ext_arr) === false) {  
+        exit("返回错误: 上传文件扩展名是不允许的扩展名。");  
+    }  
+  
+//  echo "上传的文件: " . $file_name . "<br />";  
+//  echo "文件类型: " . $file_ext . "<br />";  
+//  echo "文件大小: " . ($file_size / 1024) . " Kb<br />";  
+//  echo "临时文件: " . $tmp_name . "<br />";  
+  
+    //创建文件夹  
+    if(!file_exists($save_path)){  
+        mkdir($save_path);  
+    }  
+    //新文件名  
+    //$new_file_name = $_POST['fid'] . '.' . $file_ext;  
+    $new_file_name = $_POST['fid'] . '.jpg';  
+    //移动文件  
+    $file_path = $save_path . $new_file_name;  
+    @chmod($file_path, 0644);//修改目录权限(Linux)  
+    if (move_uploaded_file($tmp_name, $file_path) === false) {//开始移动  
+        echo "图片上传失败";  
+        exit;  
+    }  
+    else{  
+        echo "图片上传成功"."<br><script>window.close();</script>";      
+        $file_url = $save_url . $new_file_name;  
+        $fileName = uniqid('image',true);         
+    }  
+}  
+  
+  
+    //调整上传图片的大小  
+    $width=150;    
+    $height=150;    
+    $size=getimagesize($file_path);    
+    if($size[2]==1)  
+    $im_in=imagecreatefromgif($file_path);     
+    if($size[2]==2)   
+    $im_in=imagecreatefromjpeg($file_path);     
+    if($size[2]==3)  
+    $im_in=imagecreatefrompng($file_path);    
+    $im_out=imagecreatetruecolor($width,$height);    
+    imagecopyresampled($im_out,$im_in,0,0,0,0,$width,$height,$size[0],$size[1]);    
+    imagejpeg($im_out,$file_path);  
+    chmod($file_path,0777);    
+    imagedestroy($im_in);    
+    imagedestroy($im_out);  ?>
+
+	<?php
+	
+
+    $imgname = $_FILES['uppic']['name'];
+    $tmp = $_FILES['uppic']['tmp_name'];
+    $filepath = 'photo/';
+	$ext_arr = array("gif", "jpg", "jpeg", "png", "bmp"); 
+	 
+    if(move_uploaded_file($tmp,$filepath.$imgname)){
+        echo "上传成功";
+    }else{
+        echo "上传失败";
+    }
+
+?>  

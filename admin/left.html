@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+<script type="text/javascript" src="../style/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+$(function(){
+  $(".left ul li ").click(function(){
+    $(".left ul li ").eq($(this).index()).addClass("gl").siblings().removeClass("gl");
+  })
+})
+</script>
+
+
+<style>
+.left{
+	padding: 0;
+}
+.left ul {
+	padding: 0;
+	list-style: none;
+	
+}
+.left ul li 
+{
+	margin: 0;
+	height: 49px;
+	text-align: center;
+	line-height: 50px;
+	font-size: 18px;
+	font-weight: bold;
+	
+
+	}
+	 a
+	{
+	display: block;
+	text-decoration: none;
+	background-color: #FFF;
+	color: #096;
+		}
+	.left ul li a:hover
+{
+		font-weight: bold;
+	color: #FFFFFF;
+	background-color: #009966;
+	}
+		
+	
+	.gl a
+{
+	
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #009966;
+}
+</style>
+
+<body>
+<div class="left">
+<ul>
+
+<li class="gl"><a href="right.php"  target="right">用户管理</a></li>
+<li><a href="right2.php"  target="right">企业管理</a></li>
+<li><a href="right3.php"  target="right">求职指导</a></li>
+<li><a href="right4.php"  target="right">宣讲会</a></li>
+<li><a href="right5.php"  target="right">公开课</a></li>
+
+
+</ul>
+</div>
+</body>
+</html>

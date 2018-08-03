@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<script type="text/javascript">
+    function showpic(){ 
+        //获取上传文件的信息
+        var pic =document.getElementById('pic').files[0];
+        alert("sr");
+		console.log(pic);
+       
+        //在pic的文件里抓取该文件用于显示二进制信息
+        var sr  = window.URL.createObjectURL(pic);
+        console.log(sr);
+        //设置src属性，显示图片
+        document.getElementsByTagName('img')[0].src=sr;
+    }
+</script>
+<style>
+   input{
+        display: none;
+}
+label{
+    display: block;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+}</style>
+<body>
+
+
+<input type="file" name="img" id="pic" onchange="showpic()"/>
+<label for="pic"><img src="C:\Users\珊瑚海的约定\Desktop\222.png" alt="" width="102" height="100" /></label>
+</body>
+</html>
